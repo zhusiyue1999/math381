@@ -1,0 +1,330 @@
+---
+title: "math381HW7"
+output: html_document
+---
+
+```{r}
+data = read.csv(file = 'hartigan-file51.csv', header = FALSE)
+data
+distances_1 = dist(data, method="minkowski", p = 2)
+distances_1
+```
+```{r}
+# model 1 1D eigenvalues plot
+model1_1D <- cmdscale(distances_1, k = 1, eig = TRUE)
+plot(model1_1D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+```{r}
+library(RColorBrewer)
+library(wordcloud)
+true_1_1D <- data.frame(model1_1D$points, 0)
+textplot(true_1_1D[, 1], true_1_1D[, 2], gsub("(ˆ[ˆ\\s]+\\s{1})", "", 1:18, perl = TRUE), xlim = c(-25, 31), ylim = c(-0.01, 0.01), cex = 1)
+```
+
+```{r}
+plot(distances_1, dist(true_1_1D))
+abline(0, 1)
+```
+```{r}
+# model 1 2D eigenvalues plot
+model_1_2D <- cmdscale(distances_1, k = 2, eig = TRUE)
+plot(model_1_2D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+```{r}
+true_1_2D <- data.frame(model_1_2D$points, 0)
+textplot(true_1_2D[, 1], true_1_2D[, 2], gsub("(ˆ[ˆ\\s]+\\s{1})", "", 1:18, perl = TRUE), xlim = c(-25, 31), ylim = c(-25, 30), cex = 1)
+```
+
+```{r}
+plot(distances_1, dist(true_1_2D))
+abline(0, 1)
+```
+
+
+```{r}
+# model 1 3D eigenvalues plot
+model_1_3D <- cmdscale(distances_1, k = 3, eig = TRUE)
+plot(model_1_3D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+
+```{r}
+true_1_3D <- data.frame(model_1_3D$points, 0)
+plot(distances_1, dist(true_1_3D))
+abline(0, 1)
+```
+
+```{r}
+library(BBmisc)
+# apply the normalization function in columns to d:
+data_2 = normalize(data,method="standardize",margin=2)
+data_2
+distances_2 = dist(data_2, method="minkowski", p = 2)
+distances_2
+```
+```{r}
+# model 2 1D eigenvalues plot
+model_2_1D <- cmdscale(distances_2, k = 1, eig = TRUE)
+plot(model_2_1D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+
+```{r}
+true_2_1D <- data.frame(model_2_1D$points, 0)
+textplot(true_2_1D[, 1], true_2_1D[, 2], gsub("(ˆ[ˆ\\s]+\\s{1})", "", 1:18, perl = TRUE), xlim = c(-4.6, 4.5), ylim = c(-0.01, 0.01), cex = 1)
+```
+
+```{r}
+plot(distances_2, dist(true_2_1D))
+abline(0, 1)
+```
+
+```{r}
+# model 2 2D eigenvalues plot
+model_2_2D <- cmdscale(distances_2, k = 2, eig = TRUE)
+plot(model_2_2D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+
+```{r}
+true_2_2D <- data.frame(model_2_2D$points, 0)
+textplot(true_2_2D[, 1], true_2_2D[, 2], gsub("(ˆ[ˆ\\s]+\\s{1})", "", 1:18, perl = TRUE), xlim = c(-5, 5), ylim = c(-4, 5), cex = 1)
+```
+
+```{r}
+plot(distances_2, dist(true_2_2D))
+abline(0, 1)
+```
+
+
+```{r}
+# model 2 3D eigenvalues plot
+model_2_3D <- cmdscale(distances_2, k = 3, eig = TRUE)
+plot(model_2_3D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+
+```{r}
+true_2_3D <- data.frame(model_2_3D$points, 0)
+plot(distances_2, dist(true_2_3D))
+abline(0, 1)
+```
+
+```{r}
+# 3D
+#data <- subset(data, select = -V1)
+data_3 <- matrix(nrow = length(data[, 1]), ncol = length(data))
+for (j in 1:length(data)) {
+  for (i in 1:length(data[, j])) {
+    data_3[i, j] <- (data[i, j] - min(data[, j]))/(max(data[, j]) - min(data[, j]))
+  }
+}
+distances_3 = dist(data_3, method="minkowski", p = 2)
+distances_3
+```
+
+```{r}
+# model 2 1D eigenvalues plot
+model_3_1D <- cmdscale(distances_3, k = 1, eig = TRUE)
+plot(model_3_1D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+
+```{r}
+true_3_1D <- data.frame(model_3_1D$points, 0)
+textplot(true_3_1D[, 1], true_3_1D[, 2], gsub("(ˆ[ˆ\\s]+\\s{1})", "", 1:18, perl = TRUE), xlim = c(-1.2, 1.2), ylim = c(-0.1, 0.1), cex = 1)
+```
+
+```{r}
+plot(distances_3, dist(true_3_1D))
+abline(0, 1)
+```
+
+```{r}
+# model 3 2D eigenvalues plot
+model_3_2D <- cmdscale(distances_3, k = 2, eig = TRUE)
+plot(model_3_2D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+
+```{r}
+true_3_2D <- data.frame(model_3_2D$points, 0)
+textplot(true_3_2D[, 1], true_3_2D[, 2], gsub("(ˆ[ˆ\\s]+\\s{1})", "", 1:18, perl = TRUE), xlim = c(-1.2, 1.2), ylim = c(-1.2, 0.75), cex = 1)
+```
+
+```{r}
+plot(distances_3, dist(true_3_2D))
+abline(0, 1)
+```
+
+
+```{r}
+# model 1 3D eigenvalues plot
+model_3_3D <- cmdscale(distances_3, k = 3, eig = TRUE)
+plot(model_3_3D$eig, xlab = "Index for countries", ylab = "Eigenvalues")
+```
+
+```{r}
+true_3_3D <- data.frame(model_3_3D$points, 0)
+plot(distances_3, dist(true_3_3D))
+abline(0, 1)
+```
+
+```{r}
+#calculating mean absolute difference and max absolute difference
+mean_1_1D <- mean(abs(as.matrix(dist(true_1_1D)) - as.matrix(distances_1)))
+mean_1_2D <- mean(abs(as.matrix(dist(true_1_2D)) - as.matrix(distances_1)))
+mean_1_3D <- mean(abs(as.matrix(dist(true_1_3D)) - as.matrix(distances_1)))
+max_1_1D <- max(abs(as.matrix(dist(true_1_1D)) - as.matrix(distances_1)))
+max_1_2D <- max(abs(as.matrix(dist(true_1_2D)) - as.matrix(distances_1)))
+max_1_3D <- max(abs(as.matrix(dist(true_1_3D)) - as.matrix(distances_1)))
+mean_1_1D
+mean_1_2D
+mean_1_3D
+max_1_1D
+max_1_2D
+max_1_3D
+```
+
+```{r}
+#calculating mean absolute difference and max absolute difference
+mean_2_1D <- mean(abs(as.matrix(dist(true_2_1D)) - as.matrix(distances_2)))
+mean_2_2D <- mean(abs(as.matrix(dist(true_2_2D)) - as.matrix(distances_2)))
+mean_2_3D <- mean(abs(as.matrix(dist(true_2_3D)) - as.matrix(distances_2)))
+max_2_1D <- max(abs(as.matrix(dist(true_2_1D)) - as.matrix(distances_2)))
+max_2_2D <- max(abs(as.matrix(dist(true_2_2D)) - as.matrix(distances_2)))
+max_2_3D <- max(abs(as.matrix(dist(true_2_3D)) - as.matrix(distances_2)))
+mean_2_1D
+mean_2_2D
+mean_2_3D
+max_2_1D
+max_2_2D
+max_2_3D
+```
+
+```{r}
+#calculating mean absolute difference and max absolute difference
+mean_3_1D <- mean(abs(as.matrix(dist(true_3_1D)) - as.matrix(distances_3)))
+mean_3_2D <- mean(abs(as.matrix(dist(true_3_2D)) - as.matrix(distances_3)))
+mean_3_3D <- mean(abs(as.matrix(dist(true_3_3D)) - as.matrix(distances_3)))
+max_3_1D <- max(abs(as.matrix(dist(true_3_1D)) - as.matrix(distances_3)))
+max_3_2D <- max(abs(as.matrix(dist(true_3_2D)) - as.matrix(distances_3)))
+max_3_3D <- max(abs(as.matrix(dist(true_3_3D)) - as.matrix(distances_3)))
+mean_3_1D
+mean_3_2D
+mean_3_3D
+max_3_1D
+max_3_2D
+max_3_3D
+```
+
+```{r}
+GOF_2_1D <- model_2_1D$GOF
+GOF_2_2D <- model_2_2D$GOF
+GOF_2_3D <- model_2_3D$GOF
+GOF_3_1D <- model_3_1D$GOF
+GOF_3_2D <- model_3_2D$GOF
+GOF_3_3D <- model_3_3D$GOF
+GOF_2_1D
+GOF_2_2D
+GOF_2_3D
+GOF_3_1D
+GOF_3_2D
+GOF_3_3D
+```
+
+```{r}
+plot(c(GOF_2_1D[1], GOF_2_2D[1], GOF_2_3D[1]), ylim = c(0.4, 0.8), xlab = "Dimension", ylab = "GOF", col = "red") 
+points(c(GOF_3_1D[1], GOF_3_2D[1], GOF_3_3D[1]), col = "purple")
+legend("bottomright",c("generate from matrix B", "generate from matrix C"), text.col = c("red","purple"), cex = 0.6)
+```
+
+```{r}
+plot(c(mean_2_1D, mean_2_2D, mean_2_3D), ylim = c(0, 3), xlab = "Dimension", ylab = "Mean absolute difference", main = "Mean absolute difference for matrix B")
+plot(c(mean_3_1D, mean_3_2D, mean_3_3D), ylim = c(0, 0.6), xlab = "Dimension", ylab = "Mean absolute difference", main = "Mean absolute difference for matrix C")
+```
+
+```{r}
+plot(c(max_2_1D, max_2_2D, max_2_3D), ylim = c(0, 7), xlab = "Dimension", ylab = "Max absolute difference", main = "Max absolute difference for matrix B")
+plot(c(max_3_1D, max_3_2D, max_3_3D), ylim = c(0, 2), xlab = "Dimension", ylab = "Max absolute difference", main = "Max absolute difference for matrix C")
+```
+
+```{r}
+p1 = hist(distances_1)
+p2 = hist(dist(true_1_1D))
+p3 = hist(dist(true_1_2D))
+p4 = hist(dist(true_1_3D))
+plot( p1, col=rgb(0,0,1,1/4), xlim=c(0,60), main = "Histogram for distance_1 and true_1_1D")  # first histogram
+plot( p2, col=rgb(1,0,0,1/4), xlim=c(0,60), add=T)  # second
+```
+
+```{r}
+plot( p1, col=rgb(0,0,1,1/4), xlim=c(0,60), main = "Histogram for distance_1 and true_1_2D")  # first histogram
+plot( p3, col=rgb(1,0,0,1/4), xlim=c(0,60), add=T)  # first histogram
+```
+
+```{r}
+plot( p1, col=rgb(0,0,1,1/4), xlim=c(0,60), main = "Histogram for distance_1 and true_1_3D")  # first histogram
+plot( p4, col=rgb(1,0,0,1/4), xlim=c(0,60), add=T)  # second
+```
+
+```{r}
+p5 = hist(distances_2)
+p6 = hist(dist(true_2_1D))
+p7 = hist(dist(true_2_2D))
+p8 = hist(dist(true_2_3D))
+plot( p5, col=rgb(0,0,1,1/4), xlim=c(0,10), main = "Histogram for distance_2 and true_2_1D")  # first histogram
+plot( p6, col=rgb(1,0,1,1/4), xlim=c(0,10), add=T)  # second
+```
+
+```{r}
+plot( p5, col=rgb(0,0,1,1/4), xlim=c(0,10), main = "Histogram for distance_2 and true_2_2D")  # first histogram
+plot( p7, col=rgb(1,0,1,1/4), xlim=c(0,10), add=T)  # second
+```
+
+```{r}
+plot( p5, col=rgb(0,0,1,1/4), xlim=c(0,10), main = "Histogram for distance_2 and true_2_3D")  # first histogram
+plot( p8, col=rgb(1,0,1,1/4), xlim=c(0,10), add=T)  # second
+```
+
+```{r}
+p9 = hist(distances_3)
+p10 = hist(dist(true_3_1D))
+p11 = hist(dist(true_3_2D))
+p12 = hist(dist(true_3_3D))
+plot( p9, col=rgb(0,0,1,1/4), xlim=c(0,2.5), main = "Histogram for distance_3 and true_3_1D")  # first histogram
+plot( p10, col=rgb(0,1,1,1/4), xlim=c(0,2.5), add=T)  # second
+```
+```{r}
+plot( p9, col=rgb(0,0,1,1/4), xlim=c(0,2.5), main = "Histogram for distance_3 and true_3_2D")  # first histogram
+plot( p11, col=rgb(0,1,1,1/4), xlim=c(0,2.5), add=T)  # second
+```
+
+```{r}
+plot( p9, col=rgb(0,0,1,1/4), xlim=c(0,2.5), main = "Histogram for distance_3 and true_3_3D")  # first histogram
+plot( p12, col=rgb(0,1,1,1/4), xlim=c(0,2.5), add=T)  # second
+```
+
+```{r}
+round(model_2_1D$eig)
+round(model_3_1D$eig)
+```
+
+```{r}
+m1 <- matrix(nrow = length(data[, 1]), ncol = length(data))
+for (j in 1:length(data)) {
+  for (i in 1:length(data[, j])) {
+    classic[i, j] <- (data[i, j] - mean(data[, j]))/sd(data[, j])
+  } 
+}
+
+m2 <- matrix(nrow = length(data[, 1]), ncol = length(data))
+for (j in 1:length(data)) {
+  for (i in 1:length(data[, j])) {
+    convert[i, j] <- (data[i, j] - min(data[, j]))/(max(data[, j]) - min(data[, j]))
+  } 
+}
+```
+
+```{r}
+correlation1_2D <- cor(true_2_3D[, 1], as.matrix(m1))
+correlation1_3D <- cor(true_3_3D[, 1], as.matrix(m2))
+correlation2_2D <- cor(true_2_3D[, 2], as.matrix(m1))
+correlation2_3D <- cor(true_3_3D[, 2], as.matrix(m2))
+correlation3_2D <- cor(true_2_3D[, 3], as.matrix(m1))
+correlation3_3D <- cor(true_3_3D[, 3], as.matrix(m2))
+```
